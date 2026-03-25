@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Notes</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .rn-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            padding: 1.25rem;
+            background: #13131f;
+            border: 1px solid #2e2e50;
+            border-radius: 10px;
+        }
+
+        .rn-heading {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #a89cf7;
+            letter-spacing: 0.03em;
+        }
+
+        .rn-body {
+            font-size: 0.88rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        .rn-body strong { color: #c0b8f8; }
+
+        .svg-card {
+            background: #0f0f1a;
+            border: 1px solid #2a2a45;
+            border-radius: 8px;
+            padding: 0.6rem 0.5rem;
+            overflow: hidden;
+        }
+
+        .mnemonic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+
+        @media (max-width: 460px) {
+            .mnemonic-grid { grid-template-columns: 1fr; }
+        }
+
+        .mnemonic-card {
+            background: #1a1a30;
+            border: 1px solid #2e2e50;
+            border-radius: 8px;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        .mnemonic-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #555577;
+        }
+
+        .mnemonic-notes {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .note-chip-line {
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            background: #26205a;
+            border: 1px solid #4a3a9a;
+            color: #c0b8f8;
+        }
+
+        .note-chip-space {
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            background: #1a3a25;
+            border: 1px solid #3a7a50;
+            color: #7ee89e;
+        }
+
+        .mnemonic-phrase {
+            font-size: 0.8rem;
+            color: #555577;
+            font-style: italic;
+        }
+
+        .callout-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: #1a1a30;
+            border: 1px solid #2e2e50;
+            border-radius: 8px;
+        }
+
+        .callout-tag {
+            flex-shrink: 0;
+            padding: 0.2rem 0.55rem;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .tag-purple { background: #26205a; color: #a89cf7; border: 1px solid #4a3a9a; }
+        .tag-green  { background: #1a3a25; color: #7ee89e; border: 1px solid #3a7a50; }
+        .tag-yellow { background: #2a2010; color: #f0c060; border: 1px solid #7a5a20; }
+        .tag-blue   { background: #101828; color: #80c0f8; border: 1px solid #204060; }
+
+        .callout-text {
+            font-size: 0.85rem;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .callout-text strong { color: #c0b8f8; }
+
+        .accidental-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .accidental-card {
+            background: #1a1a30;
+            border: 1px solid #2e2e50;
+            border-radius: 8px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .accidental-symbol {
+            font-size: 2.2rem;
+            font-family: serif;
+            color: #e0e0f0;
+            width: 1.8rem;
+            text-align: center;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .accidental-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .accidental-name {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #c0b8f8;
+        }
+
+        .accidental-desc {
+            font-size: 0.75rem;
+            color: #555577;
+            line-height: 1.4;
+        }
+
+        .key-sig-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .key-sig-cell {
+            background: #1a1a30;
+            border: 1px solid #2e2e50;
+            border-radius: 8px;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .key-sig-name {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #c0b8f8;
+            text-align: center;
+        }
+
+        .key-sig-minor {
+            font-size: 0.68rem;
+            color: #555577;
+            text-align: center;
+        }
+
+        .key-ref-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .key-ref-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .key-ref-col-title {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #555577;
+            padding-bottom: 0.2rem;
+            border-bottom: 1px solid #2a2a45;
+            margin-bottom: 0.2rem;
+        }
+
+        .key-ref-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+
+        .key-ref-row:nth-child(odd) { background: #1a1a30; }
+
+        .key-ref-accidentals { color: #888; font-size: 0.75rem; }
+        .key-ref-major { color: #c0b8f8; font-weight: 600; }
+        .key-ref-minor { color: #555577; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="learn.html" class="nav-link active">Learn</a>
+                <a href="games.html" class="nav-link">Games</a>
+                <a href="metronome.html" class="nav-link">Metronome</a>
+            </nav>
+        </div>
+    </header>
+    <div class="page-content">
+        <a href="learn.html" class="back-link">← Back</a>
+        <div class="game-header">
+            <h1>Reading Notes</h1>
+        </div>
+
+        <p class="rn-body">Every note on a staff has a <strong>letter name</strong> (A through G) determined by where it sits. The clef at the start of the staff sets which line is which — so the same position means a different note in treble vs. bass clef.</p>
+
+        <!-- ── Treble Clef ── -->
+        <div class="rn-section">
+            <div class="rn-heading">Treble Clef Notes</div>
+            <p class="rn-body">The treble clef curls around the <strong>G line</strong> (line 2 from the bottom), fixing that line as G4. All other note positions follow from there going up and down by step.</p>
+            <div class="svg-card">
+                <!-- All 12 treble notes labeled. Lines at y=30,42,54,66,78. Notes spaced 26px from x=72. -->
+                <svg viewBox="0 0 390 125" width="100%" preserveAspectRatio="xMidYMid meet" font-family="system-ui, sans-serif">
+                    <line x1="5" x2="385" y1="30" y2="30" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="385" y1="42" y2="42" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="385" y1="54" y2="54" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="385" y1="66" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="385" y1="78" y2="78" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <text x="5" y="86" font-size="72" fill="#c0b8f8" font-family="serif">𝄞</text>
+                    <!-- C4 ledger (yellow) -->
+                    <line x1="59" x2="85" y1="90" y2="90" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <ellipse cx="72" cy="90" rx="6" ry="4.5" fill="#f0c060"/>
+                    <text x="72" y="110" font-size="9" fill="#f0c060" text-anchor="middle">C4</text>
+                    <!-- D4 space -->
+                    <ellipse cx="98" cy="84" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="98" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">D4</text>
+                    <!-- E4 line 1 -->
+                    <ellipse cx="124" cy="78" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="124" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">E4</text>
+                    <!-- F4 space -->
+                    <ellipse cx="150" cy="72" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="150" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">F4</text>
+                    <!-- G4 line 2 -->
+                    <ellipse cx="176" cy="66" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="176" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">G4</text>
+                    <!-- A4 space -->
+                    <ellipse cx="202" cy="60" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="202" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">A4</text>
+                    <!-- B4 line 3 -->
+                    <ellipse cx="228" cy="54" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="228" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">B4</text>
+                    <!-- C5 space -->
+                    <ellipse cx="254" cy="48" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="254" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">C5</text>
+                    <!-- D5 line 4 -->
+                    <ellipse cx="280" cy="42" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="280" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">D5</text>
+                    <!-- E5 space -->
+                    <ellipse cx="306" cy="36" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="306" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">E5</text>
+                    <!-- F5 line 5 -->
+                    <ellipse cx="332" cy="30" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="332" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">F5</text>
+                    <!-- G5 above top -->
+                    <ellipse cx="358" cy="24" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="358" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">G5</text>
+                    <!-- Legend -->
+                    <rect x="5" y="116" width="8" height="8" rx="2" fill="#c0b8f8"/>
+                    <text x="17" y="124" font-size="8" fill="#666688">line note</text>
+                    <rect x="70" y="116" width="8" height="8" rx="2" fill="#7ee89e"/>
+                    <text x="82" y="124" font-size="8" fill="#666688">space note</text>
+                    <rect x="135" y="116" width="8" height="8" rx="2" fill="#f0c060"/>
+                    <text x="147" y="124" font-size="8" fill="#666688">ledger line note</text>
+                </svg>
+            </div>
+            <div class="mnemonic-grid">
+                <div class="mnemonic-card">
+                    <div class="mnemonic-label">Lines — bottom to top</div>
+                    <div class="mnemonic-notes">
+                        <span class="note-chip-line">E4</span>
+                        <span class="note-chip-line">G4</span>
+                        <span class="note-chip-line">B4</span>
+                        <span class="note-chip-line">D5</span>
+                        <span class="note-chip-line">F5</span>
+                    </div>
+                    <div class="mnemonic-phrase">Every Good Boy Does Fine</div>
+                </div>
+                <div class="mnemonic-card">
+                    <div class="mnemonic-label">Spaces — bottom to top</div>
+                    <div class="mnemonic-notes">
+                        <span class="note-chip-space">F4</span>
+                        <span class="note-chip-space">A4</span>
+                        <span class="note-chip-space">C5</span>
+                        <span class="note-chip-space">E5</span>
+                    </div>
+                    <div class="mnemonic-phrase">F — A — C — E</div>
+                </div>
+            </div>
+            <div class="callout-row">
+                <span class="callout-tag tag-yellow">Middle C</span>
+                <span class="callout-text">C4 (middle C) sits on a short <strong>ledger line</strong> just below the treble staff. It's the most important landmark note — once you know it, you can count up or down to find any other note.</span>
+            </div>
+        </div>
+
+        <!-- ── Bass Clef ── -->
+        <div class="rn-section">
+            <div class="rn-heading">Bass Clef Notes</div>
+            <p class="rn-body">The bass clef's two dots sit above and below the <strong>F line</strong> (line 4 from the bottom), fixing that line as F3. Bass clef covers the lower range used by instruments like cello, bass guitar, and the piano's left hand.</p>
+            <div class="svg-card">
+                <!-- All 12 bass notes labeled. Staff lines at y=30,42,54,66,78. -->
+                <svg viewBox="0 0 390 125" width="100%" preserveAspectRatio="xMidYMid meet" font-family="system-ui, sans-serif">
+                    <line x1="5" x2="385" y1="30" y2="30" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="385" y1="42" y2="42" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="385" y1="54" y2="54" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="385" y1="66" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="385" y1="78" y2="78" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <text x="5" y="66" font-size="38" fill="#c0b8f8" font-family="serif">𝄢</text>
+                    <!-- F2 space below -->
+                    <ellipse cx="72" cy="84" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="72" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">F2</text>
+                    <!-- G2 line 1 -->
+                    <ellipse cx="98" cy="78" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="98" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">G2</text>
+                    <!-- A2 space -->
+                    <ellipse cx="124" cy="72" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="124" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">A2</text>
+                    <!-- B2 line 2 -->
+                    <ellipse cx="150" cy="66" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="150" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">B2</text>
+                    <!-- C3 space -->
+                    <ellipse cx="176" cy="60" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="176" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">C3</text>
+                    <!-- D3 line 3 -->
+                    <ellipse cx="202" cy="54" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="202" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">D3</text>
+                    <!-- E3 space -->
+                    <ellipse cx="228" cy="48" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="228" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">E3</text>
+                    <!-- F3 line 4 -->
+                    <ellipse cx="254" cy="42" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="254" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">F3</text>
+                    <!-- G3 space -->
+                    <ellipse cx="280" cy="36" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="280" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">G3</text>
+                    <!-- A3 line 5 -->
+                    <ellipse cx="306" cy="30" rx="6" ry="4.5" fill="#c0b8f8"/>
+                    <text x="306" y="110" font-size="9" fill="#c0b8f8" text-anchor="middle">A3</text>
+                    <!-- B3 above top -->
+                    <ellipse cx="332" cy="24" rx="6" ry="4.5" fill="#7ee89e"/>
+                    <text x="332" y="110" font-size="9" fill="#7ee89e" text-anchor="middle">B3</text>
+                    <!-- C4 ledger above (yellow) -->
+                    <line x1="319" x2="345" y1="18" y2="18" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <ellipse cx="358" cy="18" rx="6" ry="4.5" fill="#f0c060"/>
+                    <text x="358" y="110" font-size="9" fill="#f0c060" text-anchor="middle">C4</text>
+                    <!-- Legend -->
+                    <rect x="5" y="116" width="8" height="8" rx="2" fill="#c0b8f8"/>
+                    <text x="17" y="124" font-size="8" fill="#666688">line note</text>
+                    <rect x="70" y="116" width="8" height="8" rx="2" fill="#7ee89e"/>
+                    <text x="82" y="124" font-size="8" fill="#666688">space note</text>
+                    <rect x="135" y="116" width="8" height="8" rx="2" fill="#f0c060"/>
+                    <text x="147" y="124" font-size="8" fill="#666688">ledger line note</text>
+                </svg>
+            </div>
+            <div class="mnemonic-grid">
+                <div class="mnemonic-card">
+                    <div class="mnemonic-label">Lines — bottom to top</div>
+                    <div class="mnemonic-notes">
+                        <span class="note-chip-line">G2</span>
+                        <span class="note-chip-line">B2</span>
+                        <span class="note-chip-line">D3</span>
+                        <span class="note-chip-line">F3</span>
+                        <span class="note-chip-line">A3</span>
+                    </div>
+                    <div class="mnemonic-phrase">Good Boys Do Fine Always</div>
+                </div>
+                <div class="mnemonic-card">
+                    <div class="mnemonic-label">Spaces — bottom to top</div>
+                    <div class="mnemonic-notes">
+                        <span class="note-chip-space">A2</span>
+                        <span class="note-chip-space">C3</span>
+                        <span class="note-chip-space">E3</span>
+                        <span class="note-chip-space">G3</span>
+                    </div>
+                    <div class="mnemonic-phrase">All Cows Eat Grass</div>
+                </div>
+            </div>
+            <div class="callout-row">
+                <span class="callout-tag tag-yellow">Middle C</span>
+                <span class="callout-text">C4 (middle C) sits on a ledger line just <strong>above</strong> the bass staff — the mirror image of its position below the treble staff. It's the note where the two clefs meet.</span>
+            </div>
+        </div>
+
+        <!-- ── Accidentals ── -->
+        <div class="rn-section">
+            <div class="rn-heading">Accidentals</div>
+            <p class="rn-body">An <strong>accidental</strong> is a symbol placed directly before a note head to alter its pitch. There are five accidentals, but the three below cover almost everything you'll encounter as a beginner.</p>
+            <div class="accidental-grid">
+                <div class="accidental-card">
+                    <span class="accidental-symbol">♯</span>
+                    <div class="accidental-info">
+                        <span class="accidental-name">Sharp</span>
+                        <span class="accidental-desc">Raises the note by one half step (one semitone).</span>
+                    </div>
+                </div>
+                <div class="accidental-card">
+                    <span class="accidental-symbol">♭</span>
+                    <div class="accidental-info">
+                        <span class="accidental-name">Flat</span>
+                        <span class="accidental-desc">Lowers the note by one half step (one semitone).</span>
+                    </div>
+                </div>
+                <div class="accidental-card">
+                    <span class="accidental-symbol">♮</span>
+                    <div class="accidental-info">
+                        <span class="accidental-name">Natural</span>
+                        <span class="accidental-desc">Cancels any sharp or flat — plays the plain note.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="svg-card">
+                <!-- Staff showing F, F#, F natural in sequence -->
+                <svg viewBox="0 0 380 95" width="100%" preserveAspectRatio="xMidYMid meet" font-family="system-ui, sans-serif">
+                    <line x1="5" x2="375" y1="24" y2="24" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="375" y1="36" y2="36" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="375" y1="48" y2="48" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="375" y1="60" y2="60" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <line x1="5" x2="375" y1="72" y2="72" stroke="#4a4a6a" stroke-width="1.5"/>
+                    <text x="5" y="80" font-size="72" fill="#c0b8f8" font-family="serif">𝄞</text>
+                    <!-- Plain F4 (on line 5 = y=24) -->
+                    <ellipse cx="100" cy="24" rx="7" ry="5" fill="#e0e0f0"/>
+                    <line x1="93" x2="93" y1="25" y2="60" stroke="#e0e0f0" stroke-width="1.5"/>
+                    <text x="100" y="88" font-size="9" fill="#888" text-anchor="middle">F4</text>
+                    <!-- F#4 -->
+                    <text x="148" y="30" font-size="17" fill="#f0c060" font-family="serif">♯</text>
+                    <ellipse cx="168" cy="24" rx="7" ry="5" fill="#e0e0f0"/>
+                    <line x1="161" x2="161" y1="25" y2="60" stroke="#e0e0f0" stroke-width="1.5"/>
+                    <text x="168" y="88" font-size="9" fill="#f0c060" text-anchor="middle">F♯4  (raised)</text>
+                    <!-- Fb4 -->
+                    <text x="222" y="30" font-size="17" fill="#80c0f8" font-family="serif">♭</text>
+                    <ellipse cx="240" cy="24" rx="7" ry="5" fill="#e0e0f0"/>
+                    <line x1="233" x2="233" y1="25" y2="60" stroke="#e0e0f0" stroke-width="1.5"/>
+                    <text x="240" y="88" font-size="9" fill="#80c0f8" text-anchor="middle">F♭4  (lowered)</text>
+                    <!-- F natural cancelling -->
+                    <text x="292" y="30" font-size="17" fill="#7ee89e" font-family="serif">♮</text>
+                    <ellipse cx="312" cy="24" rx="7" ry="5" fill="#e0e0f0"/>
+                    <line x1="305" x2="305" y1="25" y2="60" stroke="#e0e0f0" stroke-width="1.5"/>
+                    <text x="312" y="88" font-size="9" fill="#7ee89e" text-anchor="middle">F♮4  (cancelled)</text>
+                </svg>
+            </div>
+            <div class="callout-row">
+                <span class="callout-tag tag-purple">Scope</span>
+                <span class="callout-text">An accidental applies to <strong>every note on that line or space for the rest of the measure</strong>. The next bar line cancels it automatically. If you want it to continue into the next measure, the composer must write it again.</span>
+            </div>
+            <div class="callout-row">
+                <span class="callout-tag tag-blue">Enharmonics</span>
+                <span class="callout-text">Two notes can sound identical but be written differently — F♯ and G♭ are the same pitch. These are called <strong>enharmonic equivalents</strong>. Which spelling is used depends on the key signature and context.</span>
+            </div>
+        </div>
+
+        <!-- ── Key Signatures ── -->
+        <div class="rn-section">
+            <div class="rn-heading">Key Signatures</div>
+            <p class="rn-body">A <strong>key signature</strong> appears right after the clef at the start of every line of music. It lists the sharps or flats that apply throughout the entire piece, so you don't have to mark every individual note. Reading the key signature first tells you which notes are always altered.</p>
+
+            <div class="callout-row">
+                <span class="callout-tag tag-purple">Order of sharps</span>
+                <span class="callout-text"><strong>F C G D A E B</strong> — Father Charles Goes Down And Ends Battle. Sharps are always added in this order; a 3-sharp key signature always contains F♯, C♯, and G♯.</span>
+            </div>
+            <div class="callout-row">
+                <span class="callout-tag tag-blue">Order of flats</span>
+                <span class="callout-text"><strong>B E A D G C F</strong> — Battle Ends And Down Goes Charles's Father (the reverse of the sharps). A 3-flat key signature always contains B♭, E♭, and A♭.</span>
+            </div>
+
+            <div class="rn-body" style="margin-top:0.25rem;">Sharp key signatures — treble clef examples:</div>
+            <div class="key-sig-row">
+                <!-- 1 sharp: G major -->
+                <div class="key-sig-cell">
+                    <div class="svg-card" style="width:100%;">
+                        <svg viewBox="0 0 90 70" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                            <line x1="3" x2="87" y1="14" y2="14" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="26" y2="26" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="38" y2="38" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="50" y2="50" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="62" y2="62" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <text x="2" y="70" font-size="52" fill="#c0b8f8">𝄞</text>
+                            <text x="46" y="22" font-size="16" fill="#f0c060">♯</text>
+                        </svg>
+                    </div>
+                    <div class="key-sig-name">G major</div>
+                    <div class="key-sig-minor">E minor</div>
+                </div>
+                <!-- 2 sharps: D major -->
+                <div class="key-sig-cell">
+                    <div class="svg-card" style="width:100%;">
+                        <svg viewBox="0 0 90 70" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                            <line x1="3" x2="87" y1="14" y2="14" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="26" y2="26" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="38" y2="38" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="50" y2="50" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="62" y2="62" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <text x="2" y="70" font-size="52" fill="#c0b8f8">𝄞</text>
+                            <text x="44" y="22" font-size="16" fill="#f0c060">♯</text>
+                            <text x="56" y="34" font-size="16" fill="#f0c060">♯</text>
+                        </svg>
+                    </div>
+                    <div class="key-sig-name">D major</div>
+                    <div class="key-sig-minor">B minor</div>
+                </div>
+                <!-- 3 sharps: A major -->
+                <div class="key-sig-cell">
+                    <div class="svg-card" style="width:100%;">
+                        <svg viewBox="0 0 90 70" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                            <line x1="3" x2="87" y1="14" y2="14" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="26" y2="26" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="38" y2="38" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="50" y2="50" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="62" y2="62" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <text x="2" y="70" font-size="52" fill="#c0b8f8">𝄞</text>
+                            <text x="42" y="22" font-size="16" fill="#f0c060">♯</text>
+                            <text x="52" y="34" font-size="16" fill="#f0c060">♯</text>
+                            <text x="62" y="18" font-size="16" fill="#f0c060">♯</text>
+                        </svg>
+                    </div>
+                    <div class="key-sig-name">A major</div>
+                    <div class="key-sig-minor">F♯ minor</div>
+                </div>
+                <!-- 4 sharps: E major -->
+                <div class="key-sig-cell">
+                    <div class="svg-card" style="width:100%;">
+                        <svg viewBox="0 0 90 70" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                            <line x1="3" x2="87" y1="14" y2="14" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="26" y2="26" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="38" y2="38" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="50" y2="50" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="62" y2="62" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <text x="2" y="70" font-size="52" fill="#c0b8f8">𝄞</text>
+                            <text x="40" y="22" font-size="16" fill="#f0c060">♯</text>
+                            <text x="50" y="34" font-size="16" fill="#f0c060">♯</text>
+                            <text x="60" y="18" font-size="16" fill="#f0c060">♯</text>
+                            <text x="70" y="30" font-size="16" fill="#f0c060">♯</text>
+                        </svg>
+                    </div>
+                    <div class="key-sig-name">E major</div>
+                    <div class="key-sig-minor">C♯ minor</div>
+                </div>
+            </div>
+
+            <div class="rn-body">Flat key signatures — treble clef examples:</div>
+            <div class="key-sig-row">
+                <!-- 1 flat: F major -->
+                <div class="key-sig-cell">
+                    <div class="svg-card" style="width:100%;">
+                        <svg viewBox="0 0 90 70" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                            <line x1="3" x2="87" y1="14" y2="14" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="26" y2="26" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="38" y2="38" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="50" y2="50" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="62" y2="62" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <text x="2" y="70" font-size="52" fill="#c0b8f8">𝄞</text>
+                            <text x="45" y="44" font-size="17" fill="#80c0f8">♭</text>
+                        </svg>
+                    </div>
+                    <div class="key-sig-name">F major</div>
+                    <div class="key-sig-minor">D minor</div>
+                </div>
+                <!-- 2 flats: Bb major -->
+                <div class="key-sig-cell">
+                    <div class="svg-card" style="width:100%;">
+                        <svg viewBox="0 0 90 70" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                            <line x1="3" x2="87" y1="14" y2="14" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="26" y2="26" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="38" y2="38" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="50" y2="50" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="62" y2="62" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <text x="2" y="70" font-size="52" fill="#c0b8f8">𝄞</text>
+                            <text x="43" y="44" font-size="17" fill="#80c0f8">♭</text>
+                            <text x="55" y="28" font-size="17" fill="#80c0f8">♭</text>
+                        </svg>
+                    </div>
+                    <div class="key-sig-name">B♭ major</div>
+                    <div class="key-sig-minor">G minor</div>
+                </div>
+                <!-- 3 flats: Eb major -->
+                <div class="key-sig-cell">
+                    <div class="svg-card" style="width:100%;">
+                        <svg viewBox="0 0 90 70" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                            <line x1="3" x2="87" y1="14" y2="14" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="26" y2="26" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="38" y2="38" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="50" y2="50" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="62" y2="62" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <text x="2" y="70" font-size="52" fill="#c0b8f8">𝄞</text>
+                            <text x="41" y="44" font-size="17" fill="#80c0f8">♭</text>
+                            <text x="52" y="28" font-size="17" fill="#80c0f8">♭</text>
+                            <text x="63" y="40" font-size="17" fill="#80c0f8">♭</text>
+                        </svg>
+                    </div>
+                    <div class="key-sig-name">E♭ major</div>
+                    <div class="key-sig-minor">C minor</div>
+                </div>
+                <!-- 4 flats: Ab major -->
+                <div class="key-sig-cell">
+                    <div class="svg-card" style="width:100%;">
+                        <svg viewBox="0 0 90 70" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                            <line x1="3" x2="87" y1="14" y2="14" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="26" y2="26" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="38" y2="38" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="50" y2="50" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <line x1="3" x2="87" y1="62" y2="62" stroke="#4a4a6a" stroke-width="1.5"/>
+                            <text x="2" y="70" font-size="52" fill="#c0b8f8">𝄞</text>
+                            <text x="39" y="44" font-size="17" fill="#80c0f8">♭</text>
+                            <text x="50" y="28" font-size="17" fill="#80c0f8">♭</text>
+                            <text x="61" y="40" font-size="17" fill="#80c0f8">♭</text>
+                            <text x="72" y="24" font-size="17" fill="#80c0f8">♭</text>
+                        </svg>
+                    </div>
+                    <div class="key-sig-name">A♭ major</div>
+                    <div class="key-sig-minor">F minor</div>
+                </div>
+            </div>
+
+            <div class="rn-body">Full reference — all 15 key signatures:</div>
+            <div class="key-ref-table">
+                <div class="key-ref-col">
+                    <div class="key-ref-col-title">Sharps</div>
+                    <div class="key-ref-row"><span class="key-ref-major">C major</span><span class="key-ref-minor">A minor</span><span class="key-ref-accidentals">0 ♯</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">G major</span><span class="key-ref-minor">E minor</span><span class="key-ref-accidentals">1 ♯</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">D major</span><span class="key-ref-minor">B minor</span><span class="key-ref-accidentals">2 ♯</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">A major</span><span class="key-ref-minor">F♯ minor</span><span class="key-ref-accidentals">3 ♯</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">E major</span><span class="key-ref-minor">C♯ minor</span><span class="key-ref-accidentals">4 ♯</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">B major</span><span class="key-ref-minor">G♯ minor</span><span class="key-ref-accidentals">5 ♯</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">F♯ major</span><span class="key-ref-minor">D♯ minor</span><span class="key-ref-accidentals">6 ♯</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">C♯ major</span><span class="key-ref-minor">A♯ minor</span><span class="key-ref-accidentals">7 ♯</span></div>
+                </div>
+                <div class="key-ref-col">
+                    <div class="key-ref-col-title">Flats</div>
+                    <div class="key-ref-row"><span class="key-ref-major">F major</span><span class="key-ref-minor">D minor</span><span class="key-ref-accidentals">1 ♭</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">B♭ major</span><span class="key-ref-minor">G minor</span><span class="key-ref-accidentals">2 ♭</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">E♭ major</span><span class="key-ref-minor">C minor</span><span class="key-ref-accidentals">3 ♭</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">A♭ major</span><span class="key-ref-minor">F minor</span><span class="key-ref-accidentals">4 ♭</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">D♭ major</span><span class="key-ref-minor">B♭ minor</span><span class="key-ref-accidentals">5 ♭</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">G♭ major</span><span class="key-ref-minor">E♭ minor</span><span class="key-ref-accidentals">6 ♭</span></div>
+                    <div class="key-ref-row"><span class="key-ref-major">C♭ major</span><span class="key-ref-minor">A♭ minor</span><span class="key-ref-accidentals">7 ♭</span></div>
+                </div>
+            </div>
+            <div class="callout-row">
+                <span class="callout-tag tag-green">Major vs minor</span>
+                <span class="callout-text">Every key signature is shared by one <strong>major</strong> key and one <strong>relative minor</strong> key. They use the same notes but start on different roots — the minor root is always 3 semitones below the major root.</span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write the Note</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="write-the-note.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="learn.html" class="nav-link">Learn</a>
+                <a href="games.html" class="nav-link active">Games</a>
+                <a href="metronome.html" class="nav-link">Metronome</a>
+            </nav>
+        </div>
+    </header>
+    <div class="page-content">
+        <a href="games.html" class="back-link">← Back</a>
+        <div class="game-header">
+            <h1>Write the Note</h1>
+            <div class="score-bar">
+                <span id="score">0 / 0</span>
+                <span id="streak"></span>
+            </div>
+        </div>
+
+        <div class="clef-toggle">
+            <button class="clef-btn active" id="btn-treble">Treble Clef</button>
+            <button class="clef-btn" id="btn-bass">Bass Clef</button>
+        </div>
+
+        <div class="note-display">
+            <div class="note-name-area">
+                <span class="note-label">Note:</span>
+                <span id="note-name" class="note-name-value">?</span>
+            </div>
+            <div class="note-controls">
+                <button class="play-btn" id="play-btn">▶ Replay</button>
+                <label class="toggle-label">
+                    <input type="checkbox" id="toggle-name">
+                    Show name
+                </label>
+            </div>
+        </div>
+
+        <p class="question">Click on the staff where this note belongs.</p>
+
+        <div class="staff-container">
+            <svg id="staff-svg" viewBox="0 0 380 108" width="100%" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <button class="next-btn" id="next-btn" hidden>Next →</button>
+    </div>
+</body>
+</html>

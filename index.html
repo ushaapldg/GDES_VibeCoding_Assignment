@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuseLearner — Learn Music Theory</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .hero {
+            width: 100%;
+            max-width: 660px;
+            padding: 4rem 2rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #7c6af7;
+        }
+
+        .hero-title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #e0e0f0;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-title span {
+            color: #a89cf7;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: #888;
+            line-height: 1.65;
+            max-width: 480px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .btn-primary {
+            padding: 0.6rem 1.4rem;
+            background: #7c6af7;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-primary:hover {
+            background: #6857e0;
+        }
+
+        .btn-secondary {
+            padding: 0.6rem 1.4rem;
+            background: transparent;
+            color: #a89cf7;
+            border: 1px solid #3a3a5c;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .btn-secondary:hover {
+            background: #1e1e35;
+            border-color: #7c6af7;
+        }
+
+        .home-sections {
+            width: 100%;
+            max-width: 660px;
+            padding: 0 2rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 0.85rem;
+        }
+
+        .section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #555577;
+        }
+
+        .section-link {
+            font-size: 0.82rem;
+            color: #7c6af7;
+            text-decoration: none;
+        }
+
+        .section-link:hover {
+            color: #a89cf7;
+        }
+
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            padding: 1.2rem;
+            background: #1a1a30;
+            border: 1px solid #3a3a5c;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .tool-card:hover {
+            background: #22223a;
+            border-color: #7c6af7;
+        }
+
+        .tool-card-icon {
+            font-size: 1.4rem;
+            line-height: 1;
+            margin-bottom: 0.2rem;
+        }
+
+        .tool-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e0e0f0;
+        }
+
+        .tool-card-desc {
+            font-size: 0.82rem;
+            color: #666688;
+            line-height: 1.45;
+        }
+
+        .metronome-card {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem;
+            background: #1a1a30;
+            border: 1px solid #3a3a5c;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .metronome-card:hover {
+            background: #22223a;
+            border-color: #7c6af7;
+        }
+
+        .metronome-card-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .metronome-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .metronome-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e0e0f0;
+        }
+
+        .metronome-card-desc {
+            font-size: 0.82rem;
+            color: #666688;
+            line-height: 1.45;
+        }
+
+        .divider {
+            width: 100%;
+            max-width: 660px;
+            border: none;
+            border-top: 1px solid #1e1e35;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="learn.html" class="nav-link">Learn</a>
+                <a href="games.html" class="nav-link">Games</a>
+                <a href="metronome.html" class="nav-link">Metronome</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-eyebrow">Free · No account needed</div>
+        <h1 class="hero-title">Learn music theory,<br><span>one concept at a time.</span></h1>
+        <p class="hero-desc">MuseLearner gives you interactive lessons, ear-training games, and practice tools to build real musical skills — from reading notes to hearing key signatures.</p>
+        <div class="hero-actions">
+            <a href="learn.html" class="btn-primary">Start Learning</a>
+            <a href="games.html" class="btn-secondary">Play Games</a>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="home-sections">
+
+        <div>
+            <div class="section-header">
+                <span class="section-title">Lessons</span>
+                <a href="learn.html" class="section-link">View all →</a>
+            </div>
+            <div class="game-grid">
+                <a href="reading-sheet-music.html" class="tool-card">
+                    <div class="tool-card-icon">🎵</div>
+                    <div class="tool-card-title">Reading Notes</div>
+                    <div class="tool-card-desc">Treble and bass clef, accidentals, and key signatures explained.</div>
+                </a>
+                <a href="reading-rhythms.html" class="tool-card">
+                    <div class="tool-card-icon">🥁</div>
+                    <div class="tool-card-title">Reading Rhythms</div>
+                    <div class="tool-card-desc">Quarter, half, whole, eighth, and sixteenth notes — how to count them all.</div>
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <div class="section-header">
+                <span class="section-title">Games</span>
+                <a href="games.html" class="section-link">View all →</a>
+            </div>
+            <div class="game-grid">
+                <a href="note-reader.html" class="tool-card">
+                    <div class="tool-card-icon">🎹</div>
+                    <div class="tool-card-title">Read the Note</div>
+                    <div class="tool-card-desc">See a note on the staff and press the matching piano key.</div>
+                </a>
+                <a href="pitch-perfect.html" class="tool-card">
+                    <div class="tool-card-icon">👂</div>
+                    <div class="tool-card-title">Pitch Perfect</div>
+                    <div class="tool-card-desc">Listen to a pitch and identify it by name. Train your ear.</div>
+                </a>
+                <a href="guess-the-key.html" class="tool-card">
+                    <div class="tool-card-icon">🔑</div>
+                    <div class="tool-card-title">Key Signature Quiz</div>
+                    <div class="tool-card-desc">Identify key signatures from a musical staff.</div>
+                </a>
+                <a href="write-the-note.html" class="tool-card">
+                    <div class="tool-card-icon">✏️</div>
+                    <div class="tool-card-title">Write the Note</div>
+                    <div class="tool-card-desc">Hear a note and click where it belongs on the staff.</div>
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <div class="section-header">
+                <span class="section-title">Tools</span>
+            </div>
+            <a href="metronome.html" class="metronome-card">
+                <div class="metronome-card-icon">🎼</div>
+                <div class="metronome-card-body">
+                    <div class="metronome-card-title">Metronome</div>
+                    <div class="metronome-card-desc">Set BPM, pick a time signature, and keep steady time. Includes an explainer on how time signatures work.</div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

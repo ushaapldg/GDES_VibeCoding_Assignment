@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Sheet Music</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ── Page mock ── */
+        .spm {
+            background: #111120;
+            border: 1.5px solid #3a3a5c;
+            border-radius: 6px;
+            padding: 1.4rem 1.6rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-family: serif;
+        }
+
+        /* Title block */
+        .spm-header {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr 1fr;
+            align-items: start;
+            gap: 0.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #2a2a45;
+            margin-bottom: 0.25rem;
+        }
+
+        .spm-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #e0e0f0;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .spm-subtitle {
+            font-size: 0.7rem;
+            color: #444466;
+            text-align: center;
+            margin-top: 0.2rem;
+            font-family: system-ui, sans-serif;
+        }
+
+        .spm-left-info {
+            font-size: 0.65rem;
+            color: #444466;
+            font-family: system-ui, sans-serif;
+            line-height: 1.6;
+        }
+
+        .spm-right-info {
+            font-size: 0.65rem;
+            color: #888;
+            font-family: system-ui, sans-serif;
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .spm-composer {
+            font-size: 0.75rem;
+            color: #c0b8f8;
+            text-align: right;
+        }
+
+        /* System rows */
+        .spm-system {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .spm-tempo {
+            font-size: 0.72rem;
+            color: #e0e0f0;
+            padding-left: calc(3.2rem + 0.5rem);
+            font-family: system-ui, sans-serif;
+            margin-bottom: 1px;
+        }
+
+        .spm-staff-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .spm-inst {
+            font-size: 0.68rem;
+            color: #c0b8f8;
+            width: 3.2rem;
+            flex-shrink: 0;
+            text-align: right;
+            font-family: system-ui, sans-serif;
+            line-height: 1.3;
+        }
+
+        .spm-inst-gap {
+            width: 3.2rem;
+            flex-shrink: 0;
+        }
+
+        .spm-staff-wrap { flex: 1; overflow: hidden; }
+
+        /* Footer */
+        .spm-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 0.6rem;
+            margin-top: 0.25rem;
+            border-top: 1px solid #2a2a45;
+        }
+
+        .spm-copyright {
+            font-size: 0.6rem;
+            color: #333355;
+            font-family: system-ui, sans-serif;
+        }
+
+        .spm-pagenum {
+            font-size: 0.72rem;
+            color: #555577;
+            font-family: system-ui, sans-serif;
+        }
+
+        /* ── Callout number circles ── */
+        .cn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: #7c6af7;
+            color: #fff;
+            font-size: 0.62rem;
+            font-weight: 700;
+            font-family: system-ui, sans-serif;
+            vertical-align: middle;
+            margin-left: 0.25rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        /* ── Legend ── */
+        .legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .legend-grid { grid-template-columns: 1fr; }
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.6rem 0.75rem;
+            background: #1a1a30;
+            border: 1px solid #2e2e50;
+            border-radius: 8px;
+        }
+
+        .legend-cn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #7c6af7;
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: system-ui, sans-serif;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .legend-text strong {
+            display: block;
+            font-size: 0.82rem;
+            color: #c0b8f8;
+            font-weight: 600;
+            margin-bottom: 0.15rem;
+        }
+
+        .legend-text span {
+            font-size: 0.75rem;
+            color: #555577;
+            line-height: 1.4;
+        }
+
+        .intro-body {
+            font-size: 0.88rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        .intro-body strong { color: #c0b8f8; }
+
+        .rn-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            padding: 1.25rem;
+            background: #13131f;
+            border: 1px solid #2e2e50;
+            border-radius: 10px;
+        }
+
+        .rn-heading {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #a89cf7;
+            letter-spacing: 0.03em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="learn.html" class="nav-link active">Learn</a>
+                <a href="games.html" class="nav-link">Games</a>
+                <a href="metronome.html" class="nav-link">Metronome</a>
+            </nav>
+        </div>
+    </header>
+    <div class="page-content">
+        <a href="learn.html" class="back-link">← Back</a>
+        <div class="game-header">
+            <h1>Reading Sheet Music</h1>
+        </div>
+
+        <p class="intro-body">A page of sheet music has a predictable anatomy. The numbered markers in the diagram below identify every major element you'll encounter. The legend underneath explains what each one is for.</p>
+
+        <!-- ── Diagram ── -->
+        <div class="rn-section">
+            <div class="rn-heading">Page Diagram</div>
+
+            <div class="spm">
+
+                <!-- Title block -->
+                <div class="spm-header">
+                    <div class="spm-left-info">
+                        Words by Lyricist<br>
+                        <span class="cn">3</span> Andante  ♩= 88
+                    </div>
+                    <div>
+                        <div class="spm-title">Song Title <span class="cn">1</span></div>
+                        <div class="spm-subtitle">Op. 1, No. 1  ·  For Piano</div>
+                    </div>
+                    <div class="spm-right-info">
+                        <div class="spm-composer">Composer Name <span class="cn">2</span></div>
+                        arr. Arranger Name
+                    </div>
+                </div>
+
+                <!-- System 1 -->
+                <div class="spm-system">
+                    <div class="spm-staff-row">
+                        <div class="spm-inst">Piano <span class="cn">4</span></div>
+                        <div class="spm-staff-wrap">
+                            <!-- Staff with clef, key sig, time sig, 4 empty measures, dynamic -->
+                            <svg viewBox="0 0 520 108" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                                <!-- Staff lines -->
+                                <line x1="5"   x2="515" y1="30" y2="30" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="5"   x2="515" y1="42" y2="42" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="5"   x2="515" y1="54" y2="54" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="5"   x2="515" y1="66" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="5"   x2="515" y1="78" y2="78" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <!-- Treble clef -->
+                                <text x="8" y="86" font-size="72" fill="#c0b8f8">𝄞</text>
+                                <!-- Key signature: 1 sharp (F#, line 5 of treble) -->
+                                <text x="56" y="38" font-size="18" fill="#e0e0f0">♯</text>
+                                <!-- Time signature 4/4 -->
+                                <text x="78" y="51" font-size="20" fill="#e0e0f0" font-weight="bold" text-anchor="middle">4</text>
+                                <text x="78" y="72" font-size="20" fill="#e0e0f0" font-weight="bold" text-anchor="middle">4</text>
+                                <!-- Bar lines -->
+                                <line x1="116" x2="116" y1="30" y2="78" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="224" x2="224" y1="30" y2="78" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="332" x2="332" y1="30" y2="78" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="440" x2="440" y1="30" y2="78" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <!-- Final double barline -->
+                                <line x1="506" x2="506" y1="30" y2="78" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="512" x2="512" y1="30" y2="78" stroke="#4a4a6a" stroke-width="4"/>
+                                <!-- Measure number 1 -->
+                                <text x="119" y="23" font-size="8" fill="#444466" font-family="system-ui,sans-serif">1</text>
+                                <!-- Dynamic marking -->
+                                <text x="122" y="97" font-size="13" fill="#e0e0f0" font-style="italic">mp</text>
+
+                                <!-- ── Callout circles ── -->
+                                <!-- ⑤ Clef -->
+                                <circle cx="28" cy="15" r="8" fill="#7c6af7"/>
+                                <text x="28" y="19" font-size="9" fill="white" text-anchor="middle" font-weight="bold" font-family="system-ui,sans-serif">5</text>
+                                <!-- ⑥ Key signature -->
+                                <circle cx="62" cy="15" r="8" fill="#7c6af7"/>
+                                <text x="62" y="19" font-size="9" fill="white" text-anchor="middle" font-weight="bold" font-family="system-ui,sans-serif">6</text>
+                                <!-- ⑦ Time signature -->
+                                <circle cx="85" cy="15" r="8" fill="#7c6af7"/>
+                                <text x="85" y="19" font-size="9" fill="white" text-anchor="middle" font-weight="bold" font-family="system-ui,sans-serif">7</text>
+                                <!-- ⑧ Bar lines -->
+                                <circle cx="118" cy="15" r="8" fill="#7c6af7"/>
+                                <text x="118" y="19" font-size="9" fill="white" text-anchor="middle" font-weight="bold" font-family="system-ui,sans-serif">8</text>
+                                <!-- ⑨ Dynamic -->
+                                <circle cx="148" cy="100" r="8" fill="#7c6af7"/>
+                                <text x="148" y="104" font-size="9" fill="white" text-anchor="middle" font-weight="bold" font-family="system-ui,sans-serif">9</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System 2 -->
+                <div class="spm-system">
+                    <div class="spm-staff-row">
+                        <div class="spm-inst-gap"></div>
+                        <div class="spm-staff-wrap">
+                            <svg viewBox="0 0 520 90" width="100%" preserveAspectRatio="xMidYMid meet" font-family="serif">
+                                <line x1="5"   x2="515" y1="18" y2="18" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="5"   x2="515" y1="30" y2="30" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="5"   x2="515" y1="42" y2="42" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="5"   x2="515" y1="54" y2="54" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="5"   x2="515" y1="66" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <!-- Clef (smaller staff offset) -->
+                                <text x="8" y="74" font-size="60" fill="#c0b8f8">𝄞</text>
+                                <!-- Key sig (repeat at start of new system) -->
+                                <text x="50" y="28" font-size="18" fill="#e0e0f0">♯</text>
+                                <!-- Bar lines -->
+                                <line x1="104" x2="104" y1="18" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="212" x2="212" y1="18" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="320" x2="320" y1="18" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="428" x2="428" y1="18" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <!-- Final barline -->
+                                <line x1="506" x2="506" y1="18" y2="66" stroke="#4a4a6a" stroke-width="1.5"/>
+                                <line x1="512" x2="512" y1="18" y2="66" stroke="#4a4a6a" stroke-width="4"/>
+                                <!-- Measure number 5 -->
+                                <text x="107" y="11" font-size="8" fill="#444466" font-family="system-ui,sans-serif">5</text>
+                                <!-- Measure numbers callout -->
+                                <circle cx="108" cy="78" r="8" fill="#7c6af7"/>
+                                <text x="108" y="82" font-size="9" fill="white" text-anchor="middle" font-weight="bold" font-family="system-ui,sans-serif">10</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="spm-footer">
+                    <div class="spm-copyright">
+                        © 2024 Publisher Name. All rights reserved. International copyright secured.
+                        <span class="cn">11</span>
+                    </div>
+                    <div class="spm-pagenum">1 <span class="cn">11</span></div>
+                </div>
+
+            </div><!-- /spm -->
+        </div>
+
+        <!-- ── Legend ── -->
+        <div class="rn-section">
+            <div class="rn-heading">What Each Part Means</div>
+            <div class="legend-grid">
+
+                <div class="legend-item">
+                    <div class="legend-cn">1</div>
+                    <div class="legend-text">
+                        <strong>Title</strong>
+                        <span>The name of the piece, centred at the top of the first page. Usually the largest text on the page.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">2</div>
+                    <div class="legend-text">
+                        <strong>Composer &amp; Arranger</strong>
+                        <span>The person who wrote the music (top right). An arranger's name appears below if the original was adapted for a different instrument or ensemble.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">3</div>
+                    <div class="legend-text">
+                        <strong>Tempo Marking</strong>
+                        <span>An Italian word (e.g. Andante, Allegro) and/or a metronome marking (♩= 88) above the first staff, indicating how fast the piece should be played.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">4</div>
+                    <div class="legend-text">
+                        <strong>Instrument Name</strong>
+                        <span>Printed to the left of the first staff to identify which instrument or voice that line of music is for. Only shown on the first system of each page.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">5</div>
+                    <div class="legend-text">
+                        <strong>Clef</strong>
+                        <span>The symbol at the start of every staff that sets which pitches the lines and spaces represent. The treble clef (𝄞) is used for higher ranges; the bass clef (𝄢) for lower ones.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">6</div>
+                    <div class="legend-text">
+                        <strong>Key Signature</strong>
+                        <span>Sharps or flats placed right after the clef. They apply to the matching notes throughout the entire piece, so you don't need to mark every individual note. No sharps or flats means C major.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">7</div>
+                    <div class="legend-text">
+                        <strong>Time Signature</strong>
+                        <span>Two stacked numbers after the key signature. The top number tells you how many beats are in each measure; the bottom tells you which note value gets one beat (4 = quarter note).</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">8</div>
+                    <div class="legend-text">
+                        <strong>Bar Lines &amp; Measures</strong>
+                        <span>Vertical lines that divide the staff into measures (bars). Each measure contains exactly the number of beats shown in the time signature. A double bar line marks a section; a final bar line ends the piece.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">9</div>
+                    <div class="legend-text">
+                        <strong>Dynamic Marking</strong>
+                        <span>An Italian abbreviation below the staff indicating volume — from pp (very soft) through ff (very loud). Changes in dynamics can appear anywhere in the music.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">10</div>
+                    <div class="legend-text">
+                        <strong>Measure Numbers</strong>
+                        <span>Small numbers above the first measure of each system that tell you which measure you're at. Useful for rehearsals — a conductor can say "from bar 5" and everyone finds the same place instantly.</span>
+                    </div>
+                </div>
+
+                <div class="legend-item">
+                    <div class="legend-cn">11</div>
+                    <div class="legend-text">
+                        <strong>Copyright &amp; Page Number</strong>
+                        <span>The copyright notice (bottom left or centre) states who owns the music and the year of publication. The page number (bottom right) helps when navigating longer pieces.</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

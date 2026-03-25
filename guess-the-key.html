@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Signature Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="game.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="learn.html" class="nav-link">Learn</a>
+                <a href="games.html" class="nav-link active">Games</a>
+                <a href="metronome.html" class="nav-link">Metronome</a>
+            </nav>
+        </div>
+    </header>
+    <div class="page-content">
+        <a href="games.html" class="back-link">← Back</a>
+        <div class="game-header">
+            <h1>Key Signature Quiz</h1>
+            <div class="score-bar">
+                <span id="score">0 / 0</span>
+                <span id="streak"></span>
+            </div>
+        </div>
+
+        <div class="staff-container">
+            <svg id="staff-svg" viewBox="0 0 380 108" width="100%" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <p class="question" id="question"></p>
+
+        <div class="options" id="options"></div>
+
+        <div class="feedback" id="feedback"></div>
+    </div>
+</body>
+</html>

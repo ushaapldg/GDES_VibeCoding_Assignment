@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metronome</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="metronome.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="learn.html" class="nav-link">Learn</a>
+                <a href="games.html" class="nav-link">Games</a>
+                <a href="metronome.html" class="nav-link active">Metronome</a>
+            </nav>
+        </div>
+    </header>
+    <div class="metronome">
+        <h1>Metronome</h1>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="bpm-slider">BPM</label>
+                <input type="range" id="bpm-slider" min="20" max="240" value="120">
+                <input type="number" id="bpm-display" min="20" max="240" value="120">
+            </div>
+
+            <div class="control-group">
+                <label for="time-sig">Time Signature</label>
+                <select id="time-sig">
+                    <option value="2/4">2/4</option>
+                    <option value="3/4">3/4</option>
+                    <option value="4/4" selected>4/4</option>
+                    <option value="5/4">5/4</option>
+                    <option value="6/8">6/8</option>
+                    <option value="7/8">7/8</option>
+                </select>
+            </div>
+
+            <button id="play-stop-btn">Play</button>
+        </div>
+
+        <div class="beat-tracker">
+            <div class="beat-bar" id="beat-bar">
+                <div class="beat-indicator" id="beat-indicator"></div>
+            </div>
+            <div class="beat-labels" id="beat-labels"></div>
+        </div>
+
+        <section class="explainer">
+            <h2>How to read a time signature</h2>
+            <p>A time signature appears as two numbers stacked on top of each other, like a fraction — but it isn't one.</p>
+            <div class="sig-diagram">
+                <div class="sig-number-stack">
+                    <span>4</span>
+                    <span>4</span>
+                </div>
+                <div class="sig-labels">
+                    <div class="sig-label">← how many beats are in one measure</div>
+                    <div class="sig-label">← what note value gets one beat</div>
+                </div>
+            </div>
+            <div class="explainer-grid">
+                <div class="explainer-card">
+                    <div class="card-label">Top number</div>
+                    <div class="card-title">Beats per measure</div>
+                    <p>How many beats you count before the pattern repeats. In <strong>4/4</strong> you count <em>1 2 3 4</em>, in <strong>3/4</strong> you count <em>1 2 3</em>.</p>
+                </div>
+                <div class="explainer-card">
+                    <div class="card-label">Bottom number</div>
+                    <div class="card-title">The beat unit</div>
+                    <p>Which note value equals one beat. <strong>4</strong> means a quarter note, <strong>8</strong> means an eighth note, <strong>2</strong> means a half note.</p>
+                </div>
+            </div>
+            <div class="note-values">
+                <span class="note-chip">2 = half note</span>
+                <span class="note-chip">4 = quarter note</span>
+                <span class="note-chip">8 = eighth note</span>
+                <span class="note-chip">16 = sixteenth note</span>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

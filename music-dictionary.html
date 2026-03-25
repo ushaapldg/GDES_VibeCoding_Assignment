@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Dictionary</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dict-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .dict-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.85rem;
+        }
+
+        .dict-card {
+            background: #1a1a30;
+            border: 1px solid #3a3a5c;
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .dict-visual {
+            font-size: 2rem;
+            line-height: 1.2;
+            color: #a89cf7;
+            min-height: 2.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .dict-visual svg {
+            overflow: visible;
+        }
+
+        .dict-term {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #e0e0f0;
+        }
+
+        .dict-origin {
+            font-size: 0.75rem;
+            color: #666688;
+            font-style: italic;
+        }
+
+        .dict-def {
+            font-size: 0.82rem;
+            color: #888;
+            line-height: 1.45;
+            margin-top: 0.1rem;
+        }
+
+        /* dynamics sizing */
+        .dict-visual.dyn {
+            font-family: "Times New Roman", serif;
+            font-size: 2.2rem;
+            font-style: italic;
+            font-weight: 700;
+            color: #c0b8f8;
+        }
+
+        /* tempo sizing */
+        .dict-visual.tempo {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #7ee89e;
+            font-style: italic;
+        }
+
+        .panel-section-heading {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: #7c6af7;
+            padding-bottom: 0.2rem;
+            border-bottom: 1px solid #2a2a45;
+        }
+
+        .dict-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            scroll-margin-top: 1rem;
+        }
+
+        .dict-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #a89cf7;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="learn.html" class="nav-link active">Learn</a>
+                <a href="games.html" class="nav-link">Games</a>
+                <a href="metronome.html" class="nav-link">Metronome</a>
+            </nav>
+        </div>
+    </header>
+    <div class="page-content">
+        <a href="learn.html" class="back-link">← Back</a>
+        <h1>Music Dictionary</h1>
+
+        <div class="dict-tabs clef-toggle" style="flex-wrap:wrap;">
+            <button class="clef-btn active" data-tab="dynamics">Dynamics</button>
+            <button class="clef-btn" data-tab="tempo">Tempo</button>
+            <button class="clef-btn" data-tab="articulation">Articulation</button>
+            <button class="clef-btn" data-tab="expression">Expression</button>
+            <button class="clef-btn" data-tab="navigation">Navigation</button>
+        </div>
+
+        <!-- DYNAMICS -->
+        <div id="tab-dynamics" class="dict-panel">
+            <div class="panel-section-heading">Volume markings — how loud or soft to play</div>
+            <div class="dict-grid">
+                <div class="dict-card">
+                    <div class="dict-visual dyn">𝑝𝑝</div>
+                    <div class="dict-term">Pianissimo</div>
+                    <div class="dict-origin">Italian: "very soft"</div>
+                    <div class="dict-def">Play very quietly. Two degrees below <em>forte</em>.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual dyn">𝑝</div>
+                    <div class="dict-term">Piano</div>
+                    <div class="dict-origin">Italian: "soft"</div>
+                    <div class="dict-def">Play softly. One of the most common dynamic markings.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual dyn">𝑚𝑝</div>
+                    <div class="dict-term">Mezzo-piano</div>
+                    <div class="dict-origin">Italian: "half soft"</div>
+                    <div class="dict-def">Moderately soft — louder than <em>p</em>, softer than <em>mf</em>.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual dyn">𝑚𝑓</div>
+                    <div class="dict-term">Mezzo-forte</div>
+                    <div class="dict-origin">Italian: "half loud"</div>
+                    <div class="dict-def">Moderately loud. Often the natural, conversational volume.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual dyn">𝑓</div>
+                    <div class="dict-term">Forte</div>
+                    <div class="dict-origin">Italian: "strong / loud"</div>
+                    <div class="dict-def">Play loudly. One of the most common dynamic markings.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual dyn">𝑓𝑓</div>
+                    <div class="dict-term">Fortissimo</div>
+                    <div class="dict-origin">Italian: "very loud"</div>
+                    <div class="dict-def">Play very loudly. Two degrees above <em>piano</em>.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual dyn">𝑠𝑓𝑧</div>
+                    <div class="dict-term">Sforzando</div>
+                    <div class="dict-origin">Italian: "forcing"</div>
+                    <div class="dict-def">A sudden, sharp accent on a single note or chord.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual dyn">𝑓𝑝</div>
+                    <div class="dict-term">Forte-piano</div>
+                    <div class="dict-origin">Italian: "loud then soft"</div>
+                    <div class="dict-def">Attack strongly, then immediately drop to soft.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual" style="font-size:1.5rem; letter-spacing:-2px; color:#a89cf7;">
+                        <svg width="64" height="28" viewBox="0 0 64 28">
+                            <polygon points="2,14 62,4 62,24" fill="none" stroke="#a89cf7" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Crescendo</div>
+                    <div class="dict-origin">Italian: "growing"</div>
+                    <div class="dict-def">Gradually get louder. Shown as an opening hairpin: <span style="font-family:serif">&lt;</span></div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="64" height="28" viewBox="0 0 64 28">
+                            <polygon points="62,14 2,4 2,24" fill="none" stroke="#a89cf7" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Decrescendo</div>
+                    <div class="dict-origin">Italian: "decreasing"</div>
+                    <div class="dict-def">Gradually get softer. Also called <em>diminuendo</em>. Shown as a closing hairpin: <span style="font-family:serif">&gt;</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMPO -->
+        <div id="tab-tempo" class="dict-panel" hidden>
+            <div class="panel-section-heading">Speed markings — how fast or slow to play</div>
+            <div class="dict-grid">
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Grave</div>
+                    <div class="dict-term">Grave</div>
+                    <div class="dict-origin">Italian: "grave / solemn"</div>
+                    <div class="dict-def">Very slow and solemn. The slowest standard tempo (~40 bpm).</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Largo</div>
+                    <div class="dict-term">Largo</div>
+                    <div class="dict-origin">Italian: "broad"</div>
+                    <div class="dict-def">Very slow and broad (~45–50 bpm).</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Adagio</div>
+                    <div class="dict-term">Adagio</div>
+                    <div class="dict-origin">Italian: "at ease"</div>
+                    <div class="dict-def">Slow and stately (~66–76 bpm). Often used in expressive movements.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Andante</div>
+                    <div class="dict-term">Andante</div>
+                    <div class="dict-origin">Italian: "walking"</div>
+                    <div class="dict-def">A moderate walking pace (~76–108 bpm).</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Moderato</div>
+                    <div class="dict-term">Moderato</div>
+                    <div class="dict-origin">Italian: "moderate"</div>
+                    <div class="dict-def">A moderate tempo (~108–120 bpm).</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Allegretto</div>
+                    <div class="dict-term">Allegretto</div>
+                    <div class="dict-origin">Italian: "a little lively"</div>
+                    <div class="dict-def">Moderately fast, lighter than <em>Allegro</em> (~112–120 bpm).</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Allegro</div>
+                    <div class="dict-term">Allegro</div>
+                    <div class="dict-origin">Italian: "cheerful / fast"</div>
+                    <div class="dict-def">Fast and lively (~120–156 bpm). Very common tempo marking.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Vivace</div>
+                    <div class="dict-term">Vivace</div>
+                    <div class="dict-origin">Italian: "lively / vivacious"</div>
+                    <div class="dict-def">Quick and spirited (~156–176 bpm).</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">Presto</div>
+                    <div class="dict-term">Presto</div>
+                    <div class="dict-origin">Italian: "quickly"</div>
+                    <div class="dict-def">Very fast (~168–200 bpm). One of the fastest standard tempos.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">accel.</div>
+                    <div class="dict-term">Accelerando</div>
+                    <div class="dict-origin">Italian: "speeding up"</div>
+                    <div class="dict-def">Gradually increase the tempo. Abbreviated <em>accel.</em></div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">rit.</div>
+                    <div class="dict-term">Ritardando</div>
+                    <div class="dict-origin">Italian: "slowing down"</div>
+                    <div class="dict-def">Gradually slow down. Abbreviated <em>rit.</em> or <em>ritard.</em></div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">a tempo</div>
+                    <div class="dict-term">A tempo</div>
+                    <div class="dict-origin">Italian: "in time"</div>
+                    <div class="dict-def">Return to the original tempo after a deviation like <em>rit.</em> or <em>accel.</em></div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo">rubato</div>
+                    <div class="dict-term">Rubato</div>
+                    <div class="dict-origin">Italian: "robbed time"</div>
+                    <div class="dict-def">Perform with flexible, expressive timing — speeding up and slowing down freely.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARTICULATION -->
+        <div id="tab-articulation" class="dict-panel" hidden>
+            <div class="panel-section-heading">How individual notes are attacked, held, or shaped</div>
+            <div class="dict-grid">
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="40" height="36" viewBox="0 0 40 36">
+                            <line x1="8" y1="28" x2="32" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="20" cy="22" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,20,22)"/>
+                            <line x1="27" y1="19" x2="27" y2="6" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <circle cx="20" cy="8" r="2.5" fill="#a89cf7"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Staccato</div>
+                    <div class="dict-origin">Italian: "detached"</div>
+                    <div class="dict-def">Play the note short and detached. Shown as a dot above or below the notehead.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="56" height="36" viewBox="0 0 56 36">
+                            <line x1="4" y1="28" x2="52" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="14" cy="24" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,14,24)"/>
+                            <line x1="21" y1="21" x2="21" y2="8" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="36" cy="24" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,36,24)"/>
+                            <line x1="43" y1="21" x2="43" y2="8" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <path d="M 14 10 Q 29 4 43 10" fill="none" stroke="#a89cf7" stroke-width="1.8"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Legato / Slur</div>
+                    <div class="dict-origin">Italian: "tied / smooth"</div>
+                    <div class="dict-def">Play notes smoothly and connected. Shown as a curved slur line over a group of notes.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="40" height="36" viewBox="0 0 40 36">
+                            <line x1="8" y1="28" x2="32" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="20" cy="22" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,20,22)"/>
+                            <line x1="27" y1="19" x2="27" y2="6" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <!-- accent > shape -->
+                            <polyline points="13,6 20,9 13,12" fill="none" stroke="#f0c060" stroke-width="1.8"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Accent</div>
+                    <div class="dict-origin">Latin: "to add a tone"</div>
+                    <div class="dict-def">Emphasize this note with extra force. Shown as a &gt; symbol above the note.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="40" height="36" viewBox="0 0 40 36">
+                            <line x1="8" y1="28" x2="32" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="20" cy="22" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,20,22)"/>
+                            <line x1="27" y1="19" x2="27" y2="6" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <!-- tenuto = horizontal line -->
+                            <line x1="13" y1="8" x2="22" y2="8" stroke="#7ee89e" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Tenuto</div>
+                    <div class="dict-origin">Italian: "held"</div>
+                    <div class="dict-def">Hold the note for its full value, with a gentle emphasis. Shown as a short horizontal line.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="40" height="36" viewBox="0 0 40 36">
+                            <line x1="8" y1="28" x2="32" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="20" cy="22" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,20,22)"/>
+                            <line x1="27" y1="19" x2="27" y2="6" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <!-- marcato = ^ hat -->
+                            <polyline points="14,14 20,7 26,14" fill="none" stroke="#f0a830" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Marcato</div>
+                    <div class="dict-origin">Italian: "marked"</div>
+                    <div class="dict-def">Play the note with a strong, emphasized attack. Shown as a caret (^) above the note.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="48" height="36" viewBox="0 0 48 36">
+                            <line x1="8" y1="28" x2="40" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="20" cy="24" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,20,24)"/>
+                            <line x1="27" y1="21" x2="27" y2="8" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <!-- fermata = dot + arc -->
+                            <path d="M 14 8 Q 20 2 26 8" fill="none" stroke="#a89cf7" stroke-width="1.8"/>
+                            <circle cx="20" cy="9" r="2" fill="#a89cf7"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Fermata</div>
+                    <div class="dict-origin">Italian: "stop / pause"</div>
+                    <div class="dict-def">Hold the note longer than its written value, at the performer's discretion.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="48" height="36" viewBox="0 0 48 36">
+                            <line x1="8" y1="28" x2="40" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="20" cy="24" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,20,24)"/>
+                            <line x1="27" y1="21" x2="27" y2="8" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <!-- trill = tr~ -->
+                            <text x="11" y="10" font-size="9" fill="#f0c060" font-style="italic" font-weight="bold" font-family="serif">tr</text>
+                            <path d="M 22 8 Q 25 4 28 8 Q 31 12 34 8" fill="none" stroke="#f0c060" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Trill</div>
+                    <div class="dict-origin">Italian: "trillo"</div>
+                    <div class="dict-def">Rapidly alternate between the written note and the note a step above it. Marked <em>tr</em> with a wavy line.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual" style="font-size:1rem; color:#7ee89e; font-style:italic; align-items:flex-end; padding-bottom:0.2rem;">
+                        <svg width="48" height="36" viewBox="0 0 48 36">
+                            <line x1="8" y1="28" x2="40" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <ellipse cx="20" cy="24" rx="7" ry="4.5" fill="#c0b8f8" transform="rotate(-15,20,24)"/>
+                            <line x1="27" y1="21" x2="27" y2="8" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <!-- pizzicato dot + staccato-like -->
+                            <circle cx="20" cy="9" r="2.5" fill="#7ee89e"/>
+                            <circle cx="20" cy="4" r="1.5" fill="#7ee89e"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Staccatissimo</div>
+                    <div class="dict-origin">Italian: "very detached"</div>
+                    <div class="dict-def">Even shorter than staccato. Shown as a wedge or narrow dot above the note.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXPRESSION -->
+        <div id="tab-expression" class="dict-panel" hidden>
+            <div class="panel-section-heading">Character and mood instructions</div>
+            <div class="dict-grid">
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">dolce</div>
+                    <div class="dict-term">Dolce</div>
+                    <div class="dict-origin">Italian: "sweet"</div>
+                    <div class="dict-def">Play in a sweet, gentle, and tender manner.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">espr.</div>
+                    <div class="dict-term">Espressivo</div>
+                    <div class="dict-origin">Italian: "expressive"</div>
+                    <div class="dict-def">With expression and feeling. Abbreviated <em>espr.</em></div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">cantabile</div>
+                    <div class="dict-term">Cantabile</div>
+                    <div class="dict-origin">Italian: "singable"</div>
+                    <div class="dict-def">In a singing style — lyrical, flowing, and melodic.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">grazioso</div>
+                    <div class="dict-term">Grazioso</div>
+                    <div class="dict-origin">Italian: "graceful"</div>
+                    <div class="dict-def">Play in a graceful, elegant manner.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">con brio</div>
+                    <div class="dict-term">Con brio</div>
+                    <div class="dict-origin">Italian: "with vigor"</div>
+                    <div class="dict-def">With energy, spirit, and enthusiasm.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">leggiero</div>
+                    <div class="dict-term">Leggiero</div>
+                    <div class="dict-origin">Italian: "light"</div>
+                    <div class="dict-def">Play lightly and delicately, with a nimble touch.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">maestoso</div>
+                    <div class="dict-term">Maestoso</div>
+                    <div class="dict-origin">Italian: "majestic"</div>
+                    <div class="dict-def">In a majestic, stately, and dignified manner.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">agitato</div>
+                    <div class="dict-term">Agitato</div>
+                    <div class="dict-origin">Italian: "agitated"</div>
+                    <div class="dict-def">Play in a restless, agitated, or excited manner.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">tranquillo</div>
+                    <div class="dict-term">Tranquillo</div>
+                    <div class="dict-origin">Italian: "tranquil"</div>
+                    <div class="dict-def">Calm and peaceful. Play quietly and without tension.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">con fuoco</div>
+                    <div class="dict-term">Con fuoco</div>
+                    <div class="dict-origin">Italian: "with fire"</div>
+                    <div class="dict-def">With fire and passion — intense and brilliant.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">mesto</div>
+                    <div class="dict-term">Mesto</div>
+                    <div class="dict-origin">Italian: "sad"</div>
+                    <div class="dict-def">In a mournful or melancholy character.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#f4a460;">giocoso</div>
+                    <div class="dict-term">Giocoso</div>
+                    <div class="dict-origin">Italian: "playful"</div>
+                    <div class="dict-def">In a humorous, playful, or jocular manner.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVIGATION -->
+        <div id="tab-navigation" class="dict-panel" hidden>
+            <div class="panel-section-heading">Repeat and navigation symbols</div>
+            <div class="dict-grid">
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="52" height="36" viewBox="0 0 52 36">
+                            <!-- repeat barlines -->
+                            <line x1="6"  y1="6" x2="6"  y2="30" stroke="#c0b8f8" stroke-width="4"/>
+                            <line x1="13" y1="6" x2="13" y2="30" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <circle cx="19" cy="13" r="2.5" fill="#a89cf7"/>
+                            <circle cx="19" cy="23" r="2.5" fill="#a89cf7"/>
+                            <line x1="38" y1="6" x2="38" y2="30" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <line x1="45" y1="6" x2="45" y2="30" stroke="#c0b8f8" stroke-width="4"/>
+                            <circle cx="32" cy="13" r="2.5" fill="#a89cf7"/>
+                            <circle cx="32" cy="23" r="2.5" fill="#a89cf7"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Repeat Signs</div>
+                    <div class="dict-origin">Music notation</div>
+                    <div class="dict-def">Go back to the opening repeat barline (or the beginning) and play the section again.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual" style="font-size:1.8rem; color:#a89cf7;">𝄋</div>
+                    <div class="dict-term">Segno</div>
+                    <div class="dict-origin">Italian: "sign"</div>
+                    <div class="dict-def">A landmark symbol. Used with <em>D.S.</em> to jump back to this sign.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual" style="font-size:1.8rem; color:#a89cf7;">𝄌</div>
+                    <div class="dict-term">Coda</div>
+                    <div class="dict-origin">Italian: "tail"</div>
+                    <div class="dict-def">A closing section of a piece. Jump to this symbol when instructed by <em>al Coda</em>.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#80c0f8;">D.C.</div>
+                    <div class="dict-term">Da Capo</div>
+                    <div class="dict-origin">Italian: "from the head"</div>
+                    <div class="dict-def">Return to the very beginning of the piece and play again. Abbreviated <em>D.C.</em></div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#80c0f8;">D.S.</div>
+                    <div class="dict-term">Dal Segno</div>
+                    <div class="dict-origin">Italian: "from the sign"</div>
+                    <div class="dict-def">Return to the Segno (𝄋) symbol and play from there. Abbreviated <em>D.S.</em></div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#80c0f8;">Fine</div>
+                    <div class="dict-term">Fine</div>
+                    <div class="dict-origin">Italian: "end"</div>
+                    <div class="dict-def">The end of the piece. Often used with <em>D.C. al Fine</em> or <em>D.S. al Fine</em>.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="52" height="36" viewBox="0 0 52 36">
+                            <!-- 1st ending bracket -->
+                            <line x1="4"  y1="28" x2="4"  y2="10" stroke="#7ee89e" stroke-width="1.8"/>
+                            <line x1="4"  y1="10" x2="28" y2="10" stroke="#7ee89e" stroke-width="1.8"/>
+                            <text x="8" y="22" font-size="9" fill="#7ee89e" font-weight="bold">1.</text>
+                            <!-- 2nd ending bracket -->
+                            <line x1="30" y1="28" x2="30" y2="10" stroke="#f0a830" stroke-width="1.8"/>
+                            <line x1="30" y1="10" x2="50" y2="10" stroke="#f0a830" stroke-width="1.8"/>
+                            <line x1="50" y1="10" x2="50" y2="28" stroke="#f0a830" stroke-width="1.8"/>
+                            <text x="34" y="22" font-size="9" fill="#f0a830" font-weight="bold">2.</text>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Volta Brackets</div>
+                    <div class="dict-origin">Italian: "time"</div>
+                    <div class="dict-def">1st and 2nd endings. On the first pass play the 1st bracket; on the repeat skip it and play the 2nd.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual tempo" style="color:#80c0f8;">al Coda</div>
+                    <div class="dict-term">Al Coda</div>
+                    <div class="dict-origin">Italian: "to the tail"</div>
+                    <div class="dict-def">Jump forward to the Coda symbol (𝄌). Used with D.C. or D.S.: e.g. <em>D.C. al Coda</em>.</div>
+                </div>
+                <div class="dict-card">
+                    <div class="dict-visual">
+                        <svg width="40" height="36" viewBox="0 0 40 36">
+                            <!-- caesura / breath mark -->
+                            <line x1="10" y1="28" x2="30" y2="28" stroke="#c0b8f8" stroke-width="1.5"/>
+                            <line x1="16" y1="6" x2="22" y2="14" stroke="#a89cf7" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="22" y1="6" x2="28" y2="14" stroke="#a89cf7" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="dict-term">Caesura</div>
+                    <div class="dict-origin">Latin: "cutting"</div>
+                    <div class="dict-def">A brief, complete pause or break in the music. Also called a "railroad tracks" or "grand pause" mark.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('[data-tab]');
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabs.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.dict-panel').forEach(p => p.hidden = true);
+                document.getElementById('tab-' + btn.dataset.tab).hidden = false;
+            });
+        });
+    </script>
+</body>
+</html>

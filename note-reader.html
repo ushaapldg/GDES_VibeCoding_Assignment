@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read the Note</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="note-reader.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="learn.html" class="nav-link">Learn</a>
+                <a href="games.html" class="nav-link active">Games</a>
+                <a href="metronome.html" class="nav-link">Metronome</a>
+            </nav>
+        </div>
+    </header>
+    <div class="page-content">
+        <a href="games.html" class="back-link">← Back</a>
+        <div class="game-header">
+            <h1>Read the Note</h1>
+            <div class="score-bar">
+                <span id="score">0 / 0</span>
+                <span id="streak"></span>
+            </div>
+        </div>
+
+        <div class="clef-toggle">
+            <button class="clef-btn active" id="btn-treble">Treble Clef</button>
+            <button class="clef-btn" id="btn-bass">Bass Clef</button>
+        </div>
+
+        <div class="staff-container">
+            <svg id="staff-svg" viewBox="0 0 380 108" width="100%" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <p class="question" id="question">Which key on the keyboard matches this note?</p>
+
+        <div class="piano-container">
+            <svg id="piano-svg" viewBox="0 0 380 130" width="100%" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <button class="next-btn" id="next-btn" hidden>Next →</button>
+    </div>
+</body>
+</html>

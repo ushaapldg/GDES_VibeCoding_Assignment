@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Rhythms</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .rhythm-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: #13131f;
+            border: 1px solid #2e2e50;
+            border-radius: 10px;
+        }
+
+        .rhythm-section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .note-symbol {
+            font-size: 3rem;
+            line-height: 1;
+            color: #a89cf7;
+            width: 2.5rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .note-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .note-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #e0e0f0;
+        }
+
+        .note-beats {
+            font-size: 0.82rem;
+            color: #888;
+        }
+
+        .note-beats strong {
+            color: #c0b8f8;
+        }
+
+        .count-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .count-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: #555577;
+        }
+
+        .count-boxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .count-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15rem;
+        }
+
+        .count-beat {
+            width: 2.6rem;
+            height: 2.6rem;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 1px solid #3a3a5c;
+            background: #1a1a30;
+            color: #e0e0f0;
+        }
+
+        .count-beat.beat-main {
+            background: #26205a;
+            border-color: #7c6af7;
+            color: #c0b8f8;
+        }
+
+        .count-beat.beat-and {
+            background: #1a2a1a;
+            border-color: #3a6a4a;
+            color: #7ee89e;
+            font-size: 0.8rem;
+        }
+
+        .count-beat.beat-e,
+        .count-beat.beat-a {
+            background: #2a1a10;
+            border-color: #6a4a20;
+            color: #f0c060;
+            font-size: 0.75rem;
+        }
+
+        .count-syllable {
+            font-size: 0.72rem;
+            color: #555577;
+        }
+
+        .count-divider {
+            width: 1px;
+            height: 2.6rem;
+            background: #2a2a45;
+            margin: 0 0.1rem;
+            align-self: flex-start;
+        }
+
+        .rhythm-tip {
+            font-size: 0.85rem;
+            color: #666688;
+            line-height: 1.5;
+            border-left: 2px solid #3a3a5c;
+            padding-left: 0.75rem;
+        }
+
+        .rhythm-tip em {
+            color: #a89cf7;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .page-intro {
+            font-size: 0.95rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        .page-intro strong {
+            color: #c0b8f8;
+        }
+
+        .subdivision-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.85rem;
+            background: #0f0f1a;
+            border: 1px solid #2a2a45;
+            border-radius: 8px;
+        }
+
+        .subdiv-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .subdiv-name {
+            font-size: 0.78rem;
+            color: #666688;
+            width: 5.5rem;
+            flex-shrink: 0;
+        }
+
+        .subdiv-bar {
+            display: flex;
+            flex: 1;
+            gap: 2px;
+        }
+
+        .subdiv-cell {
+            flex: 1;
+            height: 1.6rem;
+            border-radius: 4px;
+            background: #26205a;
+            border: 1px solid #7c6af7;
+        }
+
+        .subdiv-cell.half    { background: #1e3a2a; border-color: #4caf74; }
+        .subdiv-cell.whole   { background: #2a1a10; border-color: #c07830; }
+        .subdiv-cell.eighth  { background: #1a2040; border-color: #4060c0; }
+        .subdiv-cell.sixteenth { background: #2a1a2a; border-color: #904090; }
+        .subdiv-cell.empty   { background: transparent; border-color: #2a2a45; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <span class="site-title">MuseLearner</span>
+            <nav>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="learn.html" class="nav-link active">Learn</a>
+                <a href="games.html" class="nav-link">Games</a>
+                <a href="metronome.html" class="nav-link">Metronome</a>
+            </nav>
+        </div>
+    </header>
+    <div class="page-content">
+        <a href="learn.html" class="back-link">← Back</a>
+        <div class="game-header">
+            <h1>Reading Rhythms</h1>
+        </div>
+
+        <p class="page-intro">
+            Rhythm is how long each note lasts. Every note type has a <strong>beat value</strong> — the number of beats you hold it for. Learning to count out loud is the fastest way to lock in solid rhythm.
+        </p>
+
+        <!-- Subdivision overview diagram -->
+        <div class="rhythm-section">
+            <div class="note-title" style="color:#a89cf7;">One measure of 4/4 — subdivisions compared</div>
+            <div class="subdivision-diagram">
+                <div class="subdiv-row">
+                    <span class="subdiv-name">Whole (1 note)</span>
+                    <div class="subdiv-bar">
+                        <div class="subdiv-cell whole" style="flex:4"></div>
+                    </div>
+                </div>
+                <div class="subdiv-row">
+                    <span class="subdiv-name">Half (2 notes)</span>
+                    <div class="subdiv-bar">
+                        <div class="subdiv-cell half" style="flex:2"></div>
+                        <div class="subdiv-cell half" style="flex:2"></div>
+                    </div>
+                </div>
+                <div class="subdiv-row">
+                    <span class="subdiv-name">Quarter (4 notes)</span>
+                    <div class="subdiv-bar">
+                        <div class="subdiv-cell"></div>
+                        <div class="subdiv-cell"></div>
+                        <div class="subdiv-cell"></div>
+                        <div class="subdiv-cell"></div>
+                    </div>
+                </div>
+                <div class="subdiv-row">
+                    <span class="subdiv-name">Eighth (8 notes)</span>
+                    <div class="subdiv-bar">
+                        <div class="subdiv-cell eighth"></div>
+                        <div class="subdiv-cell eighth"></div>
+                        <div class="subdiv-cell eighth"></div>
+                        <div class="subdiv-cell eighth"></div>
+                        <div class="subdiv-cell eighth"></div>
+                        <div class="subdiv-cell eighth"></div>
+                        <div class="subdiv-cell eighth"></div>
+                        <div class="subdiv-cell eighth"></div>
+                    </div>
+                </div>
+                <div class="subdiv-row">
+                    <span class="subdiv-name">Sixteenth (16 notes)</span>
+                    <div class="subdiv-bar">
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                        <div class="subdiv-cell sixteenth"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quarter note -->
+        <div class="rhythm-section">
+            <div class="rhythm-section-header">
+                <span class="note-symbol">♩</span>
+                <div class="note-meta">
+                    <span class="note-title">Quarter Note</span>
+                    <span class="note-beats"><strong>1 beat</strong> — the most common note value</span>
+                </div>
+            </div>
+            <div class="count-row">
+                <span class="count-label">Count one measure of 4/4</span>
+                <div class="count-boxes">
+                    <div class="count-box"><div class="count-beat beat-main">1</div><span class="count-syllable">beat 1</span></div>
+                    <div class="count-box"><div class="count-beat beat-main">2</div><span class="count-syllable">beat 2</span></div>
+                    <div class="count-box"><div class="count-beat beat-main">3</div><span class="count-syllable">beat 3</span></div>
+                    <div class="count-box"><div class="count-beat beat-main">4</div><span class="count-syllable">beat 4</span></div>
+                </div>
+            </div>
+            <p class="rhythm-tip">Say <em>1 — 2 — 3 — 4</em> evenly, one number per beat. Four quarter notes fill a 4/4 measure exactly.</p>
+        </div>
+
+        <!-- Half note -->
+        <div class="rhythm-section">
+            <div class="rhythm-section-header">
+                <span class="note-symbol">𝅗𝅥</span>
+                <div class="note-meta">
+                    <span class="note-title">Half Note</span>
+                    <span class="note-beats"><strong>2 beats</strong> — hold for two counts</span>
+                </div>
+            </div>
+            <div class="count-row">
+                <span class="count-label">Count one measure of 4/4</span>
+                <div class="count-boxes">
+                    <div class="count-box"><div class="count-beat beat-main">1</div><span class="count-syllable">hold…</span></div>
+                    <div class="count-box"><div class="count-beat">2</div><span class="count-syllable">…hold</span></div>
+                    <div class="count-divider"></div>
+                    <div class="count-box"><div class="count-beat beat-main">3</div><span class="count-syllable">hold…</span></div>
+                    <div class="count-box"><div class="count-beat">4</div><span class="count-syllable">…hold</span></div>
+                </div>
+            </div>
+            <p class="rhythm-tip">Say <em>1 — 2 — 3 — 4</em> but only play on beats <em>1</em> and <em>3</em>. Each note rings through two counts before the next one starts.</p>
+        </div>
+
+        <!-- Whole note -->
+        <div class="rhythm-section">
+            <div class="rhythm-section-header">
+                <span class="note-symbol">𝅝</span>
+                <div class="note-meta">
+                    <span class="note-title">Whole Note</span>
+                    <span class="note-beats"><strong>4 beats</strong> — holds an entire 4/4 measure</span>
+                </div>
+            </div>
+            <div class="count-row">
+                <span class="count-label">Count one measure of 4/4</span>
+                <div class="count-boxes">
+                    <div class="count-box"><div class="count-beat beat-main">1</div><span class="count-syllable">hold…</span></div>
+                    <div class="count-box"><div class="count-beat">2</div><span class="count-syllable">…hold</span></div>
+                    <div class="count-box"><div class="count-beat">3</div><span class="count-syllable">…hold</span></div>
+                    <div class="count-box"><div class="count-beat">4</div><span class="count-syllable">…hold</span></div>
+                </div>
+            </div>
+            <p class="rhythm-tip">Play once on beat <em>1</em> and let it ring through all four counts. One whole note fills the entire measure — there is nothing else to play.</p>
+        </div>
+
+        <!-- Eighth note -->
+        <div class="rhythm-section">
+            <div class="rhythm-section-header">
+                <span class="note-symbol">♪</span>
+                <div class="note-meta">
+                    <span class="note-title">Eighth Note</span>
+                    <span class="note-beats"><strong>½ beat</strong> — two fit inside every quarter note</span>
+                </div>
+            </div>
+            <div class="count-row">
+                <span class="count-label">Count one measure of 4/4</span>
+                <div class="count-boxes">
+                    <div class="count-box"><div class="count-beat beat-main">1</div><span class="count-syllable">down</span></div>
+                    <div class="count-box"><div class="count-beat beat-and">+</div><span class="count-syllable">&amp;</span></div>
+                    <div class="count-box"><div class="count-beat beat-main">2</div><span class="count-syllable">down</span></div>
+                    <div class="count-box"><div class="count-beat beat-and">+</div><span class="count-syllable">&amp;</span></div>
+                    <div class="count-box"><div class="count-beat beat-main">3</div><span class="count-syllable">down</span></div>
+                    <div class="count-box"><div class="count-beat beat-and">+</div><span class="count-syllable">&amp;</span></div>
+                    <div class="count-box"><div class="count-beat beat-main">4</div><span class="count-syllable">down</span></div>
+                    <div class="count-box"><div class="count-beat beat-and">+</div><span class="count-syllable">&amp;</span></div>
+                </div>
+            </div>
+            <p class="rhythm-tip">Count <em>1 &amp; 2 &amp; 3 &amp; 4 &amp;</em> — say "and" for the half-beat between each number. The numbered beats fall on the <em>downstroke</em>, the "&amp;" beats fall on the <em>upstroke</em> when strumming or tapping.</p>
+        </div>
+
+        <!-- Sixteenth note -->
+        <div class="rhythm-section">
+            <div class="rhythm-section-header">
+                <span class="note-symbol">𝅘𝅥𝅯</span>
+                <div class="note-meta">
+                    <span class="note-title">Sixteenth Note</span>
+                    <span class="note-beats"><strong>¼ beat</strong> — four fit inside every quarter note</span>
+                </div>
+            </div>
+            <div class="count-row">
+                <span class="count-label">Count one beat (repeat × 4 for a full measure)</span>
+                <div class="count-boxes">
+                    <div class="count-box"><div class="count-beat beat-main">1</div><span class="count-syllable">one</span></div>
+                    <div class="count-box"><div class="count-beat beat-e">e</div><span class="count-syllable">ee</span></div>
+                    <div class="count-box"><div class="count-beat beat-and">+</div><span class="count-syllable">&amp;</span></div>
+                    <div class="count-box"><div class="count-beat beat-a">a</div><span class="count-syllable">ah</span></div>
+                    <div class="count-divider"></div>
+                    <div class="count-box"><div class="count-beat beat-main">2</div><span class="count-syllable">two</span></div>
+                    <div class="count-box"><div class="count-beat beat-e">e</div><span class="count-syllable">ee</span></div>
+                    <div class="count-box"><div class="count-beat beat-and">+</div><span class="count-syllable">&amp;</span></div>
+                    <div class="count-box"><div class="count-beat beat-a">a</div><span class="count-syllable">ah</span></div>
+                    <div class="count-divider"></div>
+                    <div class="count-box"><div class="count-beat beat-main">3</div><span class="count-syllable">three</span></div>
+                    <div class="count-box"><div class="count-beat beat-e">e</div><span class="count-syllable">ee</span></div>
+                    <div class="count-box"><div class="count-beat beat-and">+</div><span class="count-syllable">&amp;</span></div>
+                    <div class="count-box"><div class="count-beat beat-a">a</div><span class="count-syllable">ah</span></div>
+                    <div class="count-divider"></div>
+                    <div class="count-box"><div class="count-beat beat-main">4</div><span class="count-syllable">four</span></div>
+                    <div class="count-box"><div class="count-beat beat-e">e</div><span class="count-syllable">ee</span></div>
+                    <div class="count-box"><div class="count-beat beat-and">+</div><span class="count-syllable">&amp;</span></div>
+                    <div class="count-box"><div class="count-beat beat-a">a</div><span class="count-syllable">ah</span></div>
+                </div>
+            </div>
+            <p class="rhythm-tip">Count <em>1 e &amp; a — 2 e &amp; a — 3 e &amp; a — 4 e &amp; a</em>. Each quarter beat is split into four equal syllables. Start slow — sixteenth notes feel very fast at higher tempos. Use the metronome and set it to a comfortable BPM first.</p>
+        </div>
+
+        <!-- Rests -->
+        <div class="rhythm-section">
+            <div class="rhythm-section-header">
+                <span class="note-symbol" style="font-size:2rem;">𝄽</span>
+                <div class="note-meta">
+                    <span class="note-title">Rests</span>
+                    <span class="note-beats">Silence with a beat value — counted just like notes</span>
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:0.6rem;">
+                <div style="background:#1a1a30;border:1px solid #2e2e50;border-radius:8px;padding:0.65rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.35rem;">
+                    <div style="font-size:2rem;line-height:1.2;color:#e0e0f0;">𝄻</div>
+                    <div style="font-size:0.78rem;font-weight:600;color:#c0b8f8;">Whole rest</div>
+                    <div style="font-size:0.72rem;color:#555577;">4 beats</div>
+                </div>
+                <div style="background:#1a1a30;border:1px solid #2e2e50;border-radius:8px;padding:0.65rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.35rem;">
+                    <div style="font-size:2rem;line-height:1.2;color:#e0e0f0;">𝄼</div>
+                    <div style="font-size:0.78rem;font-weight:600;color:#c0b8f8;">Half rest</div>
+                    <div style="font-size:0.72rem;color:#555577;">2 beats</div>
+                </div>
+                <div style="background:#1a1a30;border:1px solid #2e2e50;border-radius:8px;padding:0.65rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.35rem;">
+                    <div style="font-size:2rem;line-height:1.2;color:#e0e0f0;">𝄽</div>
+                    <div style="font-size:0.78rem;font-weight:600;color:#c0b8f8;">Quarter rest</div>
+                    <div style="font-size:0.72rem;color:#555577;">1 beat</div>
+                </div>
+                <div style="background:#1a1a30;border:1px solid #2e2e50;border-radius:8px;padding:0.65rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.35rem;">
+                    <div style="font-size:2rem;line-height:1.2;color:#e0e0f0;">𝄾</div>
+                    <div style="font-size:0.78rem;font-weight:600;color:#c0b8f8;">Eighth rest</div>
+                    <div style="font-size:0.72rem;color:#555577;">½ beat</div>
+                </div>
+                <div style="background:#1a1a30;border:1px solid #2e2e50;border-radius:8px;padding:0.65rem 0.75rem;display:flex;flex-direction:column;align-items:center;gap:0.35rem;">
+                    <div style="font-size:2rem;line-height:1.2;color:#e0e0f0;">𝄿</div>
+                    <div style="font-size:0.78rem;font-weight:600;color:#c0b8f8;">Sixteenth rest</div>
+                    <div style="font-size:0.72rem;color:#555577;">¼ beat</div>
+                </div>
+            </div>
+            <p class="rhythm-tip">The whole rest hangs <em>down</em> from a line (heavy block, sinks down); the half rest sits <em>up</em> on a line (like a hat). Every rest takes up the same number of beats as the matching note — keep counting through the silence.</p>
+        </div>
+    </div>
+</body>
+</html>
